@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress</title>
+    <link rel="stylesheet" href="../stylesheet/user.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-danger">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <a class="navbar-brand text-white" href="#">Dojo eCommerce</a>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="text-white mx-3" href="admin_dashboard">Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="text-white mx-3" href="admin_show_products.html">Products</a>
+                    </li>
+                </ul>
+            </div>
+            <a class="d-flex text-white" href="admin_login_page.html">log off</a>
+        </div>
+    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light p-3">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="search" action="#">
+                <input type="text" class="form-control" placeholder="Search">
+            </form>
+        </div>
+        <div class="d-flex ">
+            <form action="">
+                <select>
+                    <option>Show All</option>
+                    <option>Shipped</option>
+                    <option>Order in Progress</option>
+                    <option>Cancelled</option>
+                </select>
+            </form>
+        </div>
+    </nav>
+    <div class="container-fluid mt-2">
+        <table class="table table-striped table-hover border">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Billing Address</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="admin_order_detail.html">100</a></td>
+                    <td>Bob</td>
+                    <td>9/6/2014</td>
+                    <td>Billing Address, Billing Address</td>
+                    <td>19.99</td>
+                    <td>
+                        <form action="">
+                            <select>
+                                <option>Order in Progress</option>
+                                <option>Shipped</option>
+                                <option>Cancelled</option>
+                            </select>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td><a href="admin_order_detail.html">100</a></td>
+                    <td>Bob</td>
+                    <td>9/6/2014</td>
+                    <td>Billing Address, Billing Address</td>
+                    <td>19.99</td>
+                    <td>
+                        <form action="">
+                            <select>
+                                <option>Cancelled</option>
+                                <option>Order in Progress</option>
+                                <option>Shipped</option>
+                            </select>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td><a href="admin_order_detail.html">100</a></td>
+                    <td>Bob</td>
+                    <td>9/6/2014</td>
+                    <td>Billing Address, Billing Address</td>
+                    <td>19.99</td>
+                    <td>
+                        <form action="">
+                            <select>
+                                <option>Order in Progress</option>
+                                <option>Shipped</option>
+                                <option>Cancelled</option>
+                            </select>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+                <a class="page-link">Previous</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">4</a></li>
+            <li class="page-item"><a class="page-link" href="#">5</a></li>
+            <li class="page-item"><a class="page-link" href="#">6</a></li>
+            <li class="page-item"><a class="page-link" href="#">7</a></li>
+            <li class="page-item"><a class="page-link" href="#">8</a></li>
+            <li class="page-item"><a class="page-link" href="#">9</a></li>
+            <li class="page-item"><a class="page-link" href="#">10</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+</body>
+</html>
