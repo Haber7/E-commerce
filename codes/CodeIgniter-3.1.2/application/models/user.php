@@ -11,4 +11,7 @@ class User extends CI_Model{
         return $result;
     }
 
+    public function get_user($user_id){
+        return $this->db->query('SELECT * FROM users WHERE id = ?',array($user_id))->result_array();
+    }
 }

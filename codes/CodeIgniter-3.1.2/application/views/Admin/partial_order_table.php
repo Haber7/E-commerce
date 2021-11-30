@@ -1,3 +1,4 @@
+<!-- Table of Orders -->
 <div class="container-fluid mt-2">
     <table class="table table-striped table-hover border">
         <thead>
@@ -11,7 +12,7 @@
             </tr>
         </thead>
         <tbody>
-
+<?php foreach($orders as $order){ ?>
             <tr>
                 <td><a href="admin_order_detail.html">100</a></td>
                 <td>Bob</td>
@@ -28,7 +29,7 @@
                     </form>
                 </td>
             </tr>
-            
+<?php } ?>  
         </tbody>
     </table>
 </div>

@@ -1,0 +1,39 @@
+* {
+    box-sizing: border-box;
+}
+
+/* Style the search field */
+form.search input[type=text] {
+    font-size: 17px;
+    border: 1px solid grey;
+    float: left;
+    width: 90%;
+    background: #f1f1f1;
+}
+
+/* Style the submit button */
+form.search button {
+    float: left;
+    width: 10%;
+    background: white;
+    color: black;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none; /* Prevent double borders */
+    cursor: pointer;
+}
+
+/* Clear floats */
+form.search::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.form-rounded {
+    border-radius: 1rem;
+}
