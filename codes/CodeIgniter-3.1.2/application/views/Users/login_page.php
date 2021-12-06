@@ -10,6 +10,7 @@
     </div>
 <?php } ?>
     <form class="needs-validation mt-3 mx-auto" style="width: 40%" action="/users/check_account" method="post" novalidate>
+        <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" />
         <!-- Email -->
         <div class="row mb-3">
             <label for="email" class="col-sm-2 col-form-label">Email</label>

@@ -4,37 +4,37 @@
             <a class="navbar-brand text-white" href="#">Dojo eCommerce</a>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="text-white mx-3" href="admin_dashboard">Orders</a>
+                    <a class="text-white mx-3" href="/users/show_admin_dashboard">Orders</a>
                 </li>
                 <li class="nav-item">
-                    <a class="text-white mx-3" href="admin_show_products.html">Products</a>
+                    <a class="text-white mx-3" href="/users/show_products">Products</a>
                 </li>
             </ul>
         </div>
-        <a class="d-flex text-white" href="admin_login_page.html">log off</a>
+        <a class="text-white px-3" href="/users/logoff">log off</a>
     </div>
 </nav>
 <nav class="navbar navbar-expand-lg navbar-light p-3">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form class="search" action="#">
-            <input type="text" class="form-control" placeholder="Search">
+        <form id="search_form" class="search" action="/orders/search_name_id">
+            <input name="search_order" type="text" class="form-control" placeholder="Search">
         </form>
     </div>
     <div class="d-flex ">
-        <form action="">
-            <select>
+        <form id="sort_status_form" action="/orders/sort_status" method="post">
+            <select name="status">
                 <option>Show All</option>
                 <option>Shipped</option>
-                <option>Order in Progress</option>
+                <option>Order in process</option>
                 <option>Cancelled</option>
-                <option>Pending</option>
+                <option>Cart</option>
             </select>
         </form>
     </div>
 </nav>
 <!-- Table of Orders -->
-<div class="container-fluid mt-2">
-    <table class="table table-striped table-hover border">
+<div id="order_table" class="container-fluid mt-2">
+    <table id="order_list" class="table table-striped table-hover border">
         <thead>
             <tr>
                 <th>Order ID</th>
@@ -46,31 +46,36 @@
             </tr>
         </thead>
         <tbody>
-<?php foreach($orders as $order){ ?>
+<?php   foreach($orders as $key => $order){ ?>
             <tr>
-                <td><a href="admin_order_detail.html">100</a></td>
-                <td>Bob</td>
-                <td>9/6/2014</td>
-                <td>Billing Address, Billing Address</td>
-                <td>19.99</td>
+                <td><a href="/users/show_order_details/<?= $order['id'] ?>"><?= $order['id'] ?></a></td>
+                <td><?= $order['name'] ?></td>
+                <td><?= $order['date'] ?></td>
+                <td><?= $order['address'] ?></td>
+                <td>$<?= $totals[$key]+10 ?></td>
                 <td>
-                    <form action="">
-                        <select>
-                            <option>Order in Progress</option>
-                            <option>Shipped</option>
-                            <option>Cancelled</option>
+                    <form id="change_status_form" action="/orders/change_status" method="post">
+                        <input type="hidden" name="id" value="<?= $order['id'] ?>" />
+                        <select id="status" name="status">
+                            <option class="status_selected" selected="selected"> <?= $order['status'] ?> </option> 
+<?php       foreach($array_choices as $choices){ 
+                if($order['status'] != $choices){ ?>
+                            <option> <?= $choices ?> </option>
+<?php           }
+            } ?>
                         </select>
                     </form>
                 </td>
             </tr>
-<?php } ?>  
+<?php   } ?>  
         </tbody>
     </table>
 </div>
+
 <!-- Pagination -->
 <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">
-<?php   if($num_pages > 2){ ?>
+<?php   if($num_pages > 1){ ?>
         <li class="page-item disabled">
             <a class="page-link">Previous</a>
         </li>

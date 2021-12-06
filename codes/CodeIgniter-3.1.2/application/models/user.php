@@ -11,7 +11,21 @@ class User extends CI_Model{
         return $result;
     }
 
+    /* Function to return the information about the specific user */
     public function get_user($user_id){
-        return $this->db->query('SELECT * FROM users WHERE id = ?',array($user_id))->result_array();
+        return $this->db->query('SELECT * FROM users WHERE id = ?',array($user_id))->row_array();
+    }
+
+    /* Function to return the customer details using the order_id */
+    public function get_user_by_order_id($order_id){
+        $query = 'SELECT CONCAT(first_name," ",last_name) AS name, address, city, state, zipcode
+                    FROM orders
+                    LEFT JOIN users 
+                        ON orders.user_id = users.id
+                    LEFT JOIN addresses
+                        ON users.address_id = addresses.id
+                    WHERE orders.id = ?';
+        $values = array($this->security->xss_clean($order_id));
+        return $this->db->query($query, $values)->row_array();
     }
 }

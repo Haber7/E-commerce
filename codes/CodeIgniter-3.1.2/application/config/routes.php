@@ -54,3 +54,8 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['default_controller'] = 'users';
 $route['login'] = 'users';
+
+$route['show_admin'] = 'users/show_admin_dashboard';
+$route['show_products'] = 'users/show_products';
+$route['show_user'] = 'users/show_catalog';
+$route['show_cart'] = 'users/show_cart';

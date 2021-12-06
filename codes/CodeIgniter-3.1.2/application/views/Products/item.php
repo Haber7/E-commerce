@@ -2,8 +2,8 @@
     <div class="container-fluid">
         <a class="navbar-brand text-white" href="">Dojo eCommerce</a>
         <div class="d-flex">
-            <a class="text-white" href="/users/show_cart">Shopping Cart (5)</a>
-            <a class="text-white px-3" href="">log off</a>
+            <a class="text-white" href="/users/show_cart">Shopping Cart (<?= $shop_cart_num ?>) </a>
+            <a class="text-white px-3" href="/users/logoff">log off</a>
         </div>
     </div>
 </nav>
@@ -28,7 +28,6 @@
             </div>
             <div class="col border mx-3 p-2">
                 <p><?= $product['description'] ?></p>
-                <p>Qui occaecat ut laboris eiusmod aute culpa fugiat eiusmod nulla quis enim. Minim cillum exercitation velit dolore cupidatat eiusmod ea reprehenderit occaecat laborum. Aute duis Lorem cupidatat do tempor eiusmod. Culpa deserunt veniam in aliquip quis cupidatat culpa consectetur. Ullamco consequat adipisicing ullamco mollit Lorem do nisi sit et.</p>
             </div>
         </div>
         <div class="row">
@@ -36,8 +35,8 @@
                 <nav class="navbar navbar-expand-lg navbar-light">
                     <div class="container-fluid">
                         <a class="navbar-brand">Similar Items</a>
-                        <form class="d-flex" action="">
-                            <select class="form-select">
+                        <form class="d-flex" action="/products/buy" method="post">
+                            <select class="form-select" name="quantity">
 <?php   for($count = 1; $count <= 3; $count++){ ?>
                                 <option><?= $count . ' $' . $product['price']*$count ?></option>
 <?php   } ?>
