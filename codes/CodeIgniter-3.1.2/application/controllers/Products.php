@@ -25,16 +25,28 @@ class Products extends CI_Controller{
         if($this->input->post('search') == null){
             $this->session->unset_userdata('search_category');
         }
+
         $this->session->set_userdata('search_name', $this->input->post('search'));
+
         $products = $this->product->get_products_by_name($this->input->post('search'));
-        $this->load->view('/partial/catalog_product_list',array('products' => $products));
+
+        $data = array(
+            'products' => $this->product->view_page($this->session->userdata('current_page'), $products),
+            'num_pages' => $this->product->get_num_pages($products),
+        );
+
+        $this->load->view('/partial/catalog_product_list', $data);
     }
 
     /* Function that loads the products based on the category clicked by the user */
     public function search_by_categories($category){
         $this->session->set_userdata('search_category', $category);
         $products = $this->product->get_products_by_category($category, $this->session->userdata('search_name'));
-        $this->load->view('/partial/catalog_product_list',array('products' => $products));
+        $data = array(
+            'products' => $this->product->view_page($this->session->userdata('current_page'), $products),
+            'num_pages' => $this->product->get_num_pages($products),
+        );
+        $this->load->view('/partial/catalog_product_list', $data);
     }
 
     /* Function that loads the products based on the selected sorting method of the user */
@@ -46,7 +58,7 @@ class Products extends CI_Controller{
         }
         
         $products = $this->product->sort_products($this->session->userdata('search_category'), $this->session->userdata('search_name'), $order);
-        $this->load->view('/partial/catalog_product_list', array('products' => $products));
+        $this->load->view('/partial/catalog_product_list_only', array('products' => $products));
     }
 
     /* Function that resets the search input in the product catalog */
@@ -97,8 +109,27 @@ class Products extends CI_Controller{
 
     /* Function to search a product based on the name of the product */
     public function admin_search_product(){
-        $data['products'] = $this->product->get_products_by_name($this->input->post('search'));
+
+        $data = array(
+            'products' => $this->product->view_page($this->session->userdata('current_page'), $this->product->get_products_by_name($this->input->post('search'))),
+            'product_images' => $this->product->get_images(),
+            'num_pages' => $this->product->get_num_pages($this->product->get_products_by_name($this->input->post('search')))
+        );
+
         $this->load->view('/partial/admin_product_list', $data);
     }
+
+    public function change_page($page){
+		$this->session->set_userdata('current_page', $page);
+        
+		$data = array(
+            'products' => $this->product->view_page($this->session->userdata('current_page'), $this->product->get_all_products()),
+            'categories' => $this->product->get_categories(),
+            'product_images' => $this->product->get_images(),
+            'num_pages' => $this->product->get_num_pages($this->product->get_all_products())
+        );
+				
+		$this->load->view('/partial/admin_product_list_only', $data);
+	}
 }
 ?>

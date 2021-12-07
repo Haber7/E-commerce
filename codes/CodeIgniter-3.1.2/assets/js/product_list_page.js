@@ -41,4 +41,31 @@ $(document).ready(function() {
         });
         return false;
     })
+
+    // Event for changing the page of the product page 
+    $(document).on("click", "a.page-link" , function(){
+        $.post('/products/change_page/' + $(this).text(), $(this).serialize(), function(res){
+            $('#product_list_only').html(res);
+        });
+        return false;
+    });
+
+    // Disable form submissions if there are invalid fields. Boostrap Form Validation
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+        // Get the forms we want to add validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+            }, false);
+        });
+        }, false);
+    })();
 })

@@ -39,6 +39,7 @@ class Orders extends CI_Controller{
         $data = array(
                     'orders' => $this->order->get_orders_by_status($status),
                     'totals' => $this->order->get_totals($this->order->get_orders_by_status($status)),
+                    'num_pages' => $this->order->get_num_pages($this->order->get_orders_by_status($status)),
                     'array_choices' => ['Order in process', 'Shipped', 'Cancelled']
                 );
 
@@ -50,15 +51,17 @@ class Orders extends CI_Controller{
         if(is_numeric($this->input->post('search_order'))){
             $id = $this->input->post('search_order');
             $data = array(
-                        'orders' => $this->order->get_orders_by_id($id),
+                        'orders' => $this->order->view_page($this->session->userdata('current_page'), $this->order->get_orders_by_id($id)),
                         'totals' => $this->order->get_totals($this->order->get_orders_by_id($id)),
+                        'num_pages' => $this->order->get_num_pages($this->order->get_orders_by_id($id)),
                         'array_choices' => ['Order in process', 'Shipped', 'Cancelled']
                     );
         }else{
             $name = $this->input->post('search_order');
             $data = array(
-                        'orders' => $this->order->get_orders_by_name($name),
+                        'orders' => $this->order->view_page($this->session->userdata('current_page'), $this->order->get_orders_by_name($name)),
                         'totals' => $this->order->get_totals($this->order->get_orders_by_name($name)),
+                        'num_pages' => $this->order->get_num_pages($this->order->get_orders_by_name($name)),
                         'array_choices' => ['Order in process', 'Shipped', 'Cancelled']
                     );
         }
@@ -75,10 +78,25 @@ class Orders extends CI_Controller{
         $data = array(
             'orders' => $this->order->get_all_orders(),
             'totals' => $this->order->get_totals($this->order->get_all_orders()),
+            'num_pages' => $this->order->get_num_pages($this->order->get_all_orders()),
             'array_choices' => ['Order in process', 'Shipped', 'Cancelled']
         );
         $this->load->view('/partial/admin_order_list', $data);
     }
+
+    public function change_page($page){
+		$this->session->set_userdata('current_page', $page);
+
+        $data = array(
+            'orders' => $this->order->view_page($this->session->userdata('current_page'), $this->order->get_all_orders()),
+            'totals' => $this->order->get_totals($this->order->get_all_orders()),
+            'num_pages' => $this->order->get_num_pages($this->order->get_all_orders()),
+            'current_page' => $this->session->userdata('current_page'),
+            'array_choices' => ['Order in process', 'Shipped', 'Cancelled']
+        );
+
+        $this->load->view('/partial/admin_order_list_only', $data);
+	}
 
 }
 ?>

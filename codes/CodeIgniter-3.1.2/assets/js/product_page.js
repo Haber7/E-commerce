@@ -3,7 +3,7 @@ $(document).ready(function(){
     /* Event for searching the name of the product */
     $(document).on("submit", "#search_form" , function(){
         $.post('/products/search_product_by_name', $(this).serialize(), function(res){
-            $('.product_list').html(res);
+            $('#product_list_and_pagination').html(res);
         });
         return false;
     });
@@ -11,7 +11,7 @@ $(document).ready(function(){
     /* Event for selecting a category of a product */
     $(document).on("click", ".category" , function(){
         $.post('/products/search_by_categories/' + $(this).text(), $(this).serialize(), function(res){
-            $('.product_list').html(res);
+            $('#product_list_and_pagination').html(res);
         });
         return false;
     });
@@ -23,5 +23,12 @@ $(document).ready(function(){
         });
         return false;
     });
-    
+
+    /* Event for changing the page of the product page */
+    $(document).on("click", "a.page-link" , function(){
+        $.post('/users/change_page/' + $(this).text(), $(this).serialize(), function(res){
+            $('#product_list_and_pagination').html(res);
+        });
+        return false;
+    });
 });

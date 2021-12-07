@@ -19,7 +19,7 @@ class Order extends CI_Model{
 
     /* Function that returns the number of pages. Each pages contains 10 orders */
     public function get_num_pages($array){
-        return ceil(COUNT($array)/10);
+        return ceil( COUNT($array)/10 );
     }
 
     /* function that gets all orders of a specific user */
@@ -281,4 +281,18 @@ class Order extends CI_Model{
         $this->db->query($query, $values);
     }
 
+    public function view_page($current_page, $order_array){
+        $new_array = array();
+        $num_per_page = 10;
+        $start = ($current_page*$num_per_page) - $num_per_page;
+        if(($current_page*$num_per_page) < count($order_array)){
+            $end = ($current_page*$num_per_page);
+        }else{
+            $end = count($order_array);
+        }
+        for($count = $start; $count < $end; $count++){
+            $new_array[] = $order_array[$count];
+        }
+        return $new_array;
+    }
 }

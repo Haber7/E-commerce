@@ -42,11 +42,12 @@ class Users extends CI_Controller{
 
 	/* Function that loads the view admin dashboard */
 	public function show_admin_dashboard(){
+		$this->session->set_userdata('current_page', 1);
 		$data = array(
-					'orders' => $this->order->get_all_orders(),
+					'orders' => $this->order->view_page($this->session->userdata('current_page'), $this->order->get_all_orders()),
 					'totals' => $this->order->get_totals($this->order->get_all_orders()),
 					'num_pages' => $this->order->get_num_pages($this->order->get_all_orders()),
-					'current_page' => 1,
+					'current_page' => $this->session->userdata('current_page'),
 					'array_choices' => ['Order in process', 'Shipped', 'Cancelled']
 				);
 		$this->load->view('/templates/admin_dashboard_header');
@@ -56,13 +57,13 @@ class Users extends CI_Controller{
 
 	/* Function that loads the view catalog */
 	public function show_catalog(){
+		$this->session->set_userdata('current_page', 1);
 		$order_id = $this->order->get_cart_order_id($this->session->userdata('user_id'));
 
 		$data = array(
 					'categories' => $this->product->get_categories(),
-					'products' => $this->product->get_all_products(),
-					// 'num_pages' => $this->product->get_num_pages($this->product->get_all_products()),
-					'num_pages' => 4,
+					'products' => $this->product->view_page($this->session->userdata('current_page'), $this->product->get_all_products()),
+					'num_pages' => $this->product->get_num_pages($this->product->get_all_products()),
 					'shop_cart_num' => $this->order->get_cart_quantity($this->order->get_items_in_cart($order_id))
 				);
 
@@ -105,10 +106,12 @@ class Users extends CI_Controller{
 
 	/* Function to display the products to the admin */
 	public function show_products(){
+		$this->session->set_userdata('current_page', 1);
 		$data = array(
-					'products' => $this->product->get_all_products(),
+					'products' => $this->product->view_page($this->session->userdata('current_page'), $this->product->get_all_products()),
 					'categories' => $this->product->get_categories(),
-					'product_images' => $this->product->get_images()
+					'product_images' => $this->product->get_images(),
+					'num_pages' => $this->product->get_num_pages($this->product->get_all_products())
 				);
 		$this->load->view('/templates/view_products_header');
 		$this->load->view('/admin/admin_show_products', $data);
@@ -119,6 +122,18 @@ class Users extends CI_Controller{
 	public function logoff(){
 		$this->session->sess_destroy();
 		redirect('login');
+	}
+
+	public function change_page($page){
+		$this->session->set_userdata('current_page', $page);
+		$order_id = $this->order->get_cart_order_id($this->session->userdata('user_id'));
+
+		$data = array(
+					'products' => $this->product->view_page($this->session->userdata('current_page'), $this->product->get_all_products()),
+					'num_pages' => $this->product->get_num_pages($this->product->get_all_products()),
+				);
+				
+		$this->load->view('/partial/catalog_product_list', $data);
 	}
 
 }

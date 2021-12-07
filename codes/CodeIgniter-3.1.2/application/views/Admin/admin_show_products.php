@@ -28,60 +28,51 @@
         </div>
     </nav>
     <div class="container-fluid mt-2">
-        <table id="product_list" class="table table-striped table-hover border">
-            <thead>
-                <tr>
-                    <th>Picture</th>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Inventory Count</th>
-                    <th>Quantity Sold</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-<?php   foreach($products as $product){ ?>
-                <tr>
-                    <td><img src="<?= base_url() ?>assets/images/products/<?= $product['image_url'] ?>" height="50px"></td>
-                    <td><?= $product['id'] ?></td>
-                    <td><?= $product['name'] ?></td>
-                    <td><?= $product['inventory_count'] ?></td>
-                    <td><?= $product['quantity_sold'] ?></td>
-                    <td>
-                        <a id="edit_product_link" class="mx-2" href="#" data-toggle="modal" data-target="#myModal">Edit</a>
-                        <a id="delete_product_link" href="#" data-toggle="modal" data-target="#delete_modal">Delete</a>
-                    </td>
-                    <td hidden><?= $product['description'] ?></td>
-                    <td hidden><?= $product['price'] ?></td>
-                    <td hidden><?= $product['classification'] ?></td>
-                    <td hidden><?= $product['category'] ?></td>
-                    <td hidden><?= $product['image_url'] ?></td>
-                </tr>
-<?php   } ?>
-            </tbody>
-        </table>
-    </div>
-    <!-- Pagination -->
-    <!-- <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-                <a class="page-link">Previous</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item"><a class="page-link" href="#">5</a></li>
-            <li class="page-item"><a class="page-link" href="#">6</a></li>
-            <li class="page-item"><a class="page-link" href="#">7</a></li>
-            <li class="page-item"><a class="page-link" href="#">8</a></li>
-            <li class="page-item"><a class="page-link" href="#">9</a></li>
-            <li class="page-item"><a class="page-link" href="#">10</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-            </li>
-        </ul>
-    </nav> -->
+        <div id="product_list">
+            <table id="product_list_only" class="table table-striped table-hover border">
+                <thead>
+                    <tr>
+                        <th>Picture</th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Inventory Count</th>
+                        <th>Quantity Sold</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <?php   foreach($products as $product){ ?>
+                    <tr>
+                        <td><img src="<?= base_url() ?>assets/images/products/<?= $product['image_url'] ?>" height="50px"></td>
+                        <td><?= $product['id'] ?></td>
+                        <td><?= $product['name'] ?></td>
+                        <td><?= $product['inventory_count'] ?></td>
+                        <td><?= $product['quantity_sold'] ?></td>
+                        <td>
+                            <a id="edit_product_link" class="mx-2" href="#" data-toggle="modal" data-target="#myModal">Edit</a>
+                            <a id="delete_product_link" href="#" data-toggle="modal" data-target="#delete_modal">Delete</a>
+                        </td>
+                        <td hidden><?= $product['description'] ?></td>
+                        <td hidden><?= $product['price'] ?></td>
+                        <td hidden><?= $product['classification'] ?></td>
+                        <td hidden><?= $product['category'] ?></td>
+                        <td hidden><?= $product['image_url'] ?></td>
+                    </tr>
+    <?php   } ?>
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+            <?php   if($num_pages > 1){
+                        for($index = 1; $index <= $num_pages; $index++){ ?>
+                    <li class="page-item"><a class="page-link" href="/products/change_page/<?= $index ?>"><?= $index ?></a></li>
+            <?php       } 
+                    } ?>
+                </ul>
+            </nav>
+        </div>
 
     <!-- The Modal -->
     <div class="modal fade" id="myModal">
@@ -96,20 +87,26 @@
                 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form id="createdit_form" action="/products/add_product" method="post" enctype="multipart/form-data">
+                    <form class="needs-validation" id="createdit_form" action="/products/add_product" method="post" enctype="multipart/form-data" novalidate>
                         <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" />
                         <input type="hidden" id="product_id" name="product_id" value="" />
                         <div class="row mb-3">
                             <label for="Name" class="col-sm-2 col-form-label">Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="name" name="name" />
+                                <input type="text" class="form-control" id="name" name="name" required>
+                                <div class="invalid-feedback">
+                                    Missing Name
+                                </div>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label for="description" class="col-sm-2 col-form-label">Description</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" id="description" name="description"></textarea>
+                                <textarea class="form-control" id="description" name="description" required></textarea>
+                                <div class="invalid-feedback">
+                                    Missing Description
+                                </div>
                             </div>
                         </div>
 
@@ -134,35 +131,47 @@
                         <div class="row mb-3">
                             <label for="price" class="col-sm-2 col-form-label">Price</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inventory_count" name="price" />
+                                <input type="text" class="form-control" id="inventory_count" name="price" required>
+                                <div class="invalid-feedback">
+                                    Missing Price
+                                </div>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label for="inventory_count" class="col-sm-2 col-form-label">Inventory Count</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inventory_count" name="inventory_count" />
+                                <input type="text" class="form-control" id="inventory_count" name="inventory_count" required >
+                                <div class="invalid-feedback">
+                                    Missing Inventory Count
+                                </div>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label for="quantity_sold" class="col-sm-2 col-form-label">Quantity Sold</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="quantity_sold" name="quantity_sold" />
+                                <input type="text" class="form-control" id="quantity_sold" name="quantity_sold" required >
+                                <div class="invalid-feedback">
+                                    Missing Quantity Sold
+                                </div>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label for="classification" class="col-sm-2 col-form-label">Classification</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="classification" name="classification" />
+                                <input type="text" class="form-control" id="classification" name="classification" required >
+                                <div class="invalid-feedback">
+                                    Missing Classification
+                                </div>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label for="new_category" class="col-sm-2 col-form-label">Images</label>
                             <div class="col-sm-10">
-                                <input type="file" class="btn btn-light" value="Upload" accept="image/*" name="image" size="20"/>
+                                <input type="file" class="btn btn-light" value="Upload" accept="image/*" name="image" size="20" required >
                             </div>
                         </div>
 
@@ -170,7 +179,7 @@
                         <div class="row mb-3">
                             <div class="col-sm-2 col-form-label"></div>
                             <div class="col-sm-10 mx-auto">
-                                <img id="product_image" src="<?= base_url() ?>assets/images/products/cap.png" height="50px">
+                                <img id="product_image" src="" height="50px">
                             </div>
                         </div>  
                     </form>

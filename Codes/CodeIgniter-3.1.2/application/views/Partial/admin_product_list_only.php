@@ -30,15 +30,3 @@
 <?php   } ?>
         </tbody>
     </table>
-</div>
-
-<!-- Pagination -->
-<nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-<?php   if($num_pages > 1){
-            for($index = 1; $index <= $num_pages; $index++){ ?>
-        <li class="page-item"><a class="page-link" href="/products/view_page/<?= $index ?>"><?= $index ?></a></li>
-<?php       } 
-        } ?>
-    </ul>
-</nav>

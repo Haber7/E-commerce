@@ -14,13 +14,13 @@ class Product extends CI_Model{
                     LEFT JOIN product_images 
                         ON products.id = product_images.product_id
                     WHERE product_images.image_category = "Main" AND status = "Active"
-                    ORDER BY price';
+                    ORDER BY price DESC';
         return $this->db->query($query)->result_array();
     }
 
-    /* Function that returns the number of pages. Each pages contains 36 products */
+    /* Function that returns the number of pages */
     public function get_num_pages($array){
-        return ceil(COUNT($array)/36);
+        return ceil( COUNT($array)/10 );
     }
 
     /* Function that returns a product using the product_id */
@@ -74,7 +74,7 @@ class Product extends CI_Model{
                     LEFT JOIN product_images 
                         ON products.id = product_images.product_id
                     WHERE product_images.image_category = "Main" AND category = ? AND name like ? AND status = "Active"
-                    ORDER BY price';
+                    ORDER BY price DESC';
         $values = array($this->security->xss_clean($category), '%'.$this->security->xss_clean($name).'%');
         return $this->db->query($query,$values)->result_array();
     }
@@ -86,7 +86,7 @@ class Product extends CI_Model{
                     LEFT JOIN product_images 
                         ON products.id = product_images.product_id
                     WHERE product_images.image_category = "Main" AND category like ? AND name like ? AND status = "Active"
-                    ORDER BY ' . $order;
+                    ORDER BY ' . $order . ' DESC';
         $values = array(
                     '%'.$this->security->xss_clean($category).'%', 
                     '%'.$this->security->xss_clean($name).'%',
@@ -205,4 +205,19 @@ class Product extends CI_Model{
         return $this->db->query($query)->result_array();
     }
 
+    /* Function to return all the products based on the page number */
+    public function view_page($current_page, $product_array){
+        $new_array = array();
+        $num_per_page = 10;
+        $start = ($current_page*$num_per_page) - $num_per_page;
+        if(($current_page*$num_per_page) < count($product_array)){
+            $end = ($current_page*$num_per_page);
+        }else{
+            $end = count($product_array);
+        }
+        for($count = $start; $count < $end; $count++){
+            $new_array[] = $product_array[$count];
+        }
+        return $new_array;
+    }
 }
